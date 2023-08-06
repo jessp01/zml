@@ -18,9 +18,9 @@ builds:
       - amd64
       - arm64
 
-    main: cmd/zml_cli.go
+    main: cmd/zml_cli/zml_cli.go
     id: zml_cli
-    binary: zml
+    binary: zml-cli
 
 archives:
   - format: tar.gz
