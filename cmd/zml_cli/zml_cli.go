@@ -91,7 +91,7 @@ func main() {
 		log.SetFlags(log.LstdFlags | log.Lshortfile)
 		if c.NArg() < 1 {
 			fmt.Printf("USAGE: %s <filename> \n", os.Args[0])
-			os.Exit(0)
+			os.Exit(1)
 		}
 
 		fileName := c.Args().Get(0)
@@ -99,8 +99,7 @@ func main() {
 		fileBytes, err := ioutil.ReadFile(fileName)
 
 		if err != nil {
-			fmt.Println(err)
-			os.Exit(1)
+			log.Fatal(err)
 		}
 
 		dia := zml.NewDiagram(fileName)

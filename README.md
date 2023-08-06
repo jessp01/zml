@@ -17,6 +17,21 @@ $ go install github.com/jessp01/zml/cmd/zml_cli@latest
 
 See the [examples dir](./examples) for sample input files.
 
+For example, running the below command with this input:
+```
+title: Sequence Diagram
+Alice->>John: Hello John, how are you?
+John-->>Alice: Great!
+John->>Bob: How about you?
+Bob-->>John: Jolly good!
+Alice-->>John: Glad to hear you're well
+John-->>Alice: And how are you doing, Alice?
+Alice-->>John: Just fine, John. How about you, Bob?
+Bob-->>Alice: doing okay, Alice, thanks:)
+John-->>Bob: Good to hear things are okay, John
+John-->>Alice: Glad you're doing well, Alice
+```
+
 ```sh
 $ ./zml_cli --font-dir /usr/share/texlive/texmf-dist/fonts/truetype/google/noto \
     --title-font "NotoSans-Bold.ttf,37" \
