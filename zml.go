@@ -5,6 +5,8 @@ import (
 	"image/color"
 	"log"
 	"path/filepath"
+	"regexp"
+	"strings"
 
 	"github.com/fogleman/gg"
 )
@@ -70,8 +72,10 @@ func (dia *Diagram) Render() {
 
 func (dia *Diagram) renderTitle() {
 	s := dia.title
-	if err := dia.dc.LoadFontFace(filepath.Join(dia.fontDir, dia.titleFont.Name), dia.titleFont.Size); err != nil {
-		log.Printf(err.Error())
+	if dia.fontDir != "" && dia.titleFont.Name != "" {
+		if err := dia.dc.LoadFontFace(filepath.Join(dia.fontDir, dia.titleFont.Name), dia.titleFont.Size); err != nil {
+			log.Printf(err.Error())
+		}
 	}
 	textWidth, _ := dia.dc.MeasureString(s)
 	centerX := float64(dia.dc.Width())/2.0 - float64(textWidth)/2.0
@@ -112,8 +116,10 @@ func (dia *Diagram) renderElemenets() {
 		dia.dc.DrawLine(endX, startY, endX, endY)
 		dia.dc.Stroke()*/
 
-		if err := dia.dc.LoadFontFace(filepath.Join(dia.fontDir, dia.elementLabelFont.Name), dia.elementLabelFont.Size); err != nil {
-			log.Printf(err.Error())
+		if dia.fontDir != "" && dia.elementLabelFont.Name != "" {
+			if err := dia.dc.LoadFontFace(filepath.Join(dia.fontDir, dia.elementLabelFont.Name), dia.elementLabelFont.Size); err != nil {
+				log.Printf(err.Error())
+			}
 		}
 
 		dia.dc.SetColor(color.Gray{Y: 230})
@@ -217,8 +223,10 @@ func (dia *Diagram) renderConnections() {
 		}
 
 		if e.Label != "" {
-			if err := dia.dc.LoadFontFace(filepath.Join(dia.fontDir, dia.labelFont.Name), dia.labelFont.Size); err != nil {
-				log.Printf(err.Error())
+			if dia.fontDir != "" && dia.labelFont.Name != "" {
+				if err := dia.dc.LoadFontFace(filepath.Join(dia.fontDir, dia.labelFont.Name), dia.labelFont.Size); err != nil {
+					log.Printf(err.Error())
+				}
 			}
 			textWidth, textHeight := dia.dc.MeasureString(e.Label)
 			textY := startY + textHeight + 5
@@ -352,4 +360,42 @@ func (dia *Diagram) SetElementLabelFont(font Font) {
 // SetDebug set debug value
 func (dia *Diagram) SetDebug(debug bool) {
 	dia.debug = debug
+}
+
+// ProcessData generates image from ZML data
+func (dia *Diagram) ProcessData(data []byte) {
+	sliceData := strings.Split(string(data), "\n")
+	firstLine := sliceData[0]
+	titleRegexp := regexp.MustCompile(`^\[?title\]?\s*:\s*([\w\s.,-]+)`)
+	matches := titleRegexp.FindStringSubmatch(string(firstLine))
+	var title string
+	if len(matches) > 1 {
+		title = matches[1]
+		sliceData = sliceData[1:]
+		dia.SetTitle(title)
+	}
+
+	relationRegexp := regexp.MustCompile(`^\[?([A-Za-z\s]+)\]?([-]+>{0,2})\[?([A-Za-z\s]+)\]?:?(.*)?`)
+	for _, line := range sliceData {
+		if line == "" || strings.HasPrefix(line, "#") || strings.HasPrefix(line, "//") {
+			continue
+		}
+		parts := relationRegexp.FindStringSubmatch(string(line))
+		if len(parts) > 4 {
+			fromElemenet := strings.Trim(parts[1], " ")
+			relationType := parts[2]
+			toElemenet := strings.Trim(parts[3], " ")
+			dia.AddElemenets(fromElemenet, toElemenet)
+			label := ""
+			if len(parts) == 5 && parts[4] != "" {
+				label = parts[4]
+			}
+			if relationType[len(relationType)-1] == '>' {
+				dia.AddDirectionalConnection(fromElemenet, toElemenet, label)
+			} else {
+				dia.AddConnection(fromElemenet, toElemenet, label)
+			}
+		}
+	}
+	dia.Render()
 }
