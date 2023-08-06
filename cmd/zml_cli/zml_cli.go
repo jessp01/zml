@@ -81,11 +81,13 @@ COPYRIGHT:
 			Name:        "width, w",
 			Usage:       "Image width.",
 			Destination: &width,
+			Value:       1024,
 		},
 		cli.Float64Flag{
 			Name:        "height",
 			Usage:       "Image height.",
 			Destination: &height,
+			Value:       1024,
 		},
 		cli.StringFlag{
 			Name:        "background-color, b",
