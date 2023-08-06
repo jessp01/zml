@@ -37,6 +37,7 @@ type Diagram struct {
 	titleFont        Font
 	labelFont        Font
 	elementLabelFont Font
+	debug            bool
 }
 
 // NewDiagram init function
@@ -60,7 +61,11 @@ func (dia *Diagram) Render() {
 	dia.renderElemenets()
 	dia.renderConnections()
 
-	dia.dc.SavePNG(fmt.Sprintf("%s.png", dia.filename))
+	imageOutputFile := fmt.Sprintf("%s.png", dia.filename)
+	dia.dc.SavePNG(imageOutputFile)
+	if dia.debug {
+		log.Printf("Saved to %s\n", imageOutputFile)
+	}
 }
 
 func (dia *Diagram) renderTitle() {
@@ -70,7 +75,6 @@ func (dia *Diagram) renderTitle() {
 	}
 	textWidth, _ := dia.dc.MeasureString(s)
 	centerX := float64(dia.dc.Width())/2.0 - float64(textWidth)/2.0
-	log.Printf("title: %s", dia.title)
 	dia.dc.SetColor(color.Black)
 	dia.dc.DrawString(s, centerX, height*0.05)
 	dia.dc.Stroke()
@@ -240,13 +244,17 @@ func (dia *Diagram) AddElemenets(name ...string) {
 		skipAdd = false
 		for i := range dia.elemenets {
 			if dia.elemenets[i].Name == n {
-				// log.Printf("AddElemenets(): skipping %s\n", n)
+				if dia.debug {
+					log.Printf("AddElemenets(): skipping %s\n", n)
+				}
 				skipAdd = true
 				break
 			}
 		}
 		if !skipAdd {
-			// log.Printf("AddElemenets(): adding %s\n", n)
+			if dia.debug {
+				log.Printf("AddElemenets(): adding %s\n", n)
+			}
 			dia.elemenets = append(dia.elemenets, elemenet{Name: n})
 		}
 	}
@@ -271,6 +279,9 @@ func (dia *Diagram) AddDirectionalConnection(from, to string, label string) erro
 		panic(fmt.Sprintf("elemenet \"%s not found", to))
 	}
 
+	if dia.debug {
+		log.Printf("{from: %s, to: %s, Label: %s, directional: true}\n", fromPar.Name, toPar.Name, label)
+	}
 	dia.edges = append(dia.edges, edge{from: *fromPar, to: *toPar, Label: label, directional: true})
 	return nil
 }
@@ -291,31 +302,54 @@ func (dia *Diagram) AddConnection(from, to string, label string) error {
 		return fmt.Errorf("elemenet not found")
 	}
 
+	if dia.debug {
+		log.Printf("{from: %s, to: %s, Label: %s, directional: false}\n", fromPar.Name, toPar.Name, label)
+	}
 	dia.edges = append(dia.edges, edge{from: *fromPar, to: *toPar, Label: label, directional: false})
 	return nil
 }
 
 // SetTitle sets the diagram's title
-func (dia *Diagram) SetTitle(s string) {
-	dia.title = s
+func (dia *Diagram) SetTitle(title string) {
+	dia.title = title
+	if dia.debug {
+		log.Printf("title: %s", dia.title)
+	}
 }
 
 // SetFontDir path to font dir
 func (dia *Diagram) SetFontDir(dir string) {
 	dia.fontDir = dir
+	if dia.debug {
+		log.Printf("fontDir: %s", dia.fontDir)
+	}
 }
 
 // SetTitleFont sets font to use for the title
 func (dia *Diagram) SetTitleFont(font Font) {
 	dia.titleFont = font
+	if dia.debug {
+		log.Printf("Title font: %s, %f", dia.titleFont.Name, dia.titleFont.Size)
+	}
 }
 
 // SetLabelFont sets font to use for labels
 func (dia *Diagram) SetLabelFont(font Font) {
 	dia.labelFont = font
+	if dia.debug {
+		log.Printf("Label font: %s, %f", dia.labelFont.Name, dia.labelFont.Size)
+	}
 }
 
 // SetElementLabelFont sets font to use for labels
 func (dia *Diagram) SetElementLabelFont(font Font) {
 	dia.elementLabelFont = font
+	if dia.debug {
+		log.Printf("Element font: %s, %f", dia.elementLabelFont.Name, dia.elementLabelFont.Size)
+	}
+}
+
+// SetDebug set debug value
+func (dia *Diagram) SetDebug(debug bool) {
+	dia.debug = debug
 }

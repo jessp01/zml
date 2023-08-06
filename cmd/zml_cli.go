@@ -26,9 +26,11 @@ func main() {
 	}
 
 	dia := zml.NewDiagram(fileName)
+	dia.SetDebug(true)
 	dia.SetFontDir("/usr/share/texlive/texmf-dist/fonts/truetype/google/roboto")
 	dia.SetElementLabelFont(zml.Font{Name: "Roboto-Regular.ttf", Size: 15})
 	dia.SetLabelFont(zml.Font{Name: "Roboto-Italic.ttf", Size: 15})
+	dia.SetDebug(false)
 
 	sliceData := strings.Split(string(fileBytes), "\n")
 	firstLine := sliceData[0]
