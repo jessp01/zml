@@ -108,23 +108,30 @@ func main() {
 			dia.SetDebug(true)
 		}
 		dia.SetFontDir(fontDir)
+		fontSize := 15.00
 		if titleFont != "" {
 			titleFontAttribs := strings.Split(titleFont, ",")
-			fontSize, _ := strconv.ParseFloat(titleFontAttribs[1], 64)
+			if len(titleFontAttribs) > 1 {
+				fontSize, _ = strconv.ParseFloat(titleFontAttribs[1], 64)
+			}
 			if err == nil {
 				dia.SetTitleFont(zml.Font{Name: titleFontAttribs[0], Size: fontSize})
 			}
 		}
 		if labelFont != "" {
 			labelFontAttribs := strings.Split(labelFont, ",")
-			fontSize, _ := strconv.ParseFloat(labelFontAttribs[1], 64)
+			if len(labelFontAttribs) > 1 {
+				fontSize, _ = strconv.ParseFloat(labelFontAttribs[1], 64)
+			}
 			if err == nil {
 				dia.SetLabelFont(zml.Font{Name: labelFontAttribs[0], Size: fontSize})
 			}
 		}
 		if elementFont != "" {
 			elementFontAttribs := strings.Split(elementFont, ",")
-			fontSize, _ := strconv.ParseFloat(elementFontAttribs[1], 64)
+			if len(elementFontAttribs) > 1 {
+				fontSize, _ = strconv.ParseFloat(elementFontAttribs[1], 64)
+			}
 			if err == nil {
 				dia.SetElementLabelFont(zml.Font{Name: elementFontAttribs[0], Size: fontSize})
 			}
