@@ -24,7 +24,7 @@ func populateAppMetadata(app *cli.App) {
    {{.Name}} - {{.Usage}}
 
 USAGE:
-   {{.HelpName}} {{if .VisibleFlags}}[global options]{{end}}{{if .Commands}} command [command options]{{end}} {{if .ArgsUsage}}{{.ArgsUsage}}{{else}}[input-file]{{end}}
+   {{.HelpName}} {{if .VisibleFlags}}[global options]{{end}} {{if .ArgsUsage}}{{.ArgsUsage}}{{else}}[input-file]{{end}}
    {{if len .Authors}}
 COMMANDS:
 {{range .Commands}}{{if not .HideHelp}}   {{join .Names ", "}}{{ "\t"}}{{.Usage}}{{ "\n" }}{{end}}{{end}}{{end}}{{if .VisibleFlags}}
@@ -56,22 +56,22 @@ COPYRIGHT:
 	app.Copyright = "(c) packman.io"
 	app.Flags = []cli.Flag{
 		cli.StringFlag{
-			Name:        "font-dir, fd",
+			Name:        "font-dir, f",
 			Usage:       "Path to font dir.\n",
 			Destination: &fontDir,
 		},
 		cli.StringFlag{
-			Name:        "title-font, tf",
+			Name:        "title-font, t",
 			Usage:       `font to use for titles; e.g: Roboto-Bold.ttf,30`,
 			Destination: &titleFont,
 		},
 		cli.StringFlag{
-			Name:        "element-font, ef",
+			Name:        "element-font, e",
 			Usage:       `font to use for node names; e.g: Roboto-Regular.ttf,15`,
 			Destination: &elementFont,
 		},
 		cli.StringFlag{
-			Name:        "label-font, lf",
+			Name:        "label-font, l",
 			Usage:       `font to use for connection labels; e.g: Roboto-Italic.ttf,15`,
 			Destination: &labelFont,
 		},
