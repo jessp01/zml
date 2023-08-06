@@ -15,9 +15,7 @@ $ go install github.com/jessp01/zml/cmd/zml_cli@latest
 
 ### Example
 
-See the [examples dir](./examples) for sample input files.
-
-For example, running the below command with this input:
+Running the below command with this input:
 ```
 title: Sequence Diagram
 Alice->>John: Hello John, how are you?
@@ -43,6 +41,8 @@ $ ./zml_cli --font-dir /usr/share/texlive/texmf-dist/fonts/truetype/google/noto 
 Will create `./examples/sequence_flow1.zml.png`
 
 ![example sequence flow](examples/sequence_flow1.zml.png)
+
+See the [examples dir](./examples) for sample input files.
 
 [license]: ./LICENSE
 [badge-license]: https://img.shields.io/github/license/jessp01/zml.svg
