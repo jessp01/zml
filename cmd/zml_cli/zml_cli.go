@@ -17,6 +17,8 @@ var fontDir string
 var titleFont string
 var labelFont string
 var elementFont string
+var backgroundColor string
+var width, height float64
 var debug bool = false
 
 func populateAppMetadata(app *cli.App) {
@@ -75,9 +77,25 @@ COPYRIGHT:
 			Usage:       `font to use for connection labels; e.g: Roboto-Italic.ttf,15`,
 			Destination: &labelFont,
 		},
+		cli.Float64Flag{
+			Name:        "width, w",
+			Usage:       "Image width.",
+			Destination: &width,
+		},
+		cli.Float64Flag{
+			Name:        "height",
+			Usage:       "Image height.",
+			Destination: &height,
+		},
+		cli.StringFlag{
+			Name:        "background-color, b",
+			Usage:       `Background colour`,
+			Destination: &backgroundColor,
+			Value:       "white",
+		},
 		cli.BoolFlag{
 			Name:        "debug, d",
-			Usage:       "Run in debug mode.\n",
+			Usage:       "Run in debug mode.",
 			Destination: &debug,
 		},
 	}
@@ -89,6 +107,7 @@ func main() {
 
 	app.Action = func(c *cli.Context) error {
 		log.SetFlags(log.LstdFlags | log.Lshortfile)
+		fmt.Printf("%f, %f, %s, %s\n", width, height, backgroundColor, fontDir)
 		if c.NArg() < 1 {
 			fmt.Printf("USAGE: %s <filename> \n", os.Args[0])
 			os.Exit(1)
@@ -137,6 +156,7 @@ func main() {
 			}
 		}
 		dia.ProcessData(fileBytes)
+		dia.Render(width, height, backgroundColor)
 		return nil
 	}
 	err := app.Run(os.Args)

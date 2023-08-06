@@ -53,10 +53,10 @@ func NewDiagram(filename string) *Diagram {
 }
 
 // Render generates an image from a `Diagram` object
-func (dia *Diagram) Render() {
-	dia.dc = gg.NewContext(width, height)
+func (dia *Diagram) Render(width, height float64, color string) {
+	dia.dc = gg.NewContext(int(width), int(height))
 	dia.dc.DrawRectangle(0, 0, width, height)
-	dia.dc.SetColor(color.White)
+	dia.dc.SetRGB255(Colorlookup(color))
 	dia.dc.Fill()
 
 	dia.renderTitle()
@@ -397,5 +397,4 @@ func (dia *Diagram) ProcessData(data []byte) {
 			}
 		}
 	}
-	dia.Render()
 }
