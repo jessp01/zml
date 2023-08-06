@@ -1,4 +1,4 @@
-# zml
+# ZML
 
 [![CI][badge-build]][build]
 [![GoDoc][go-docs-badge]][go-docs]
