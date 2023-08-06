@@ -30,7 +30,6 @@ func main() {
 	dia.SetFontDir("/usr/share/texlive/texmf-dist/fonts/truetype/google/roboto")
 	dia.SetElementLabelFont(zml.Font{Name: "Roboto-Regular.ttf", Size: 15})
 	dia.SetLabelFont(zml.Font{Name: "Roboto-Italic.ttf", Size: 15})
-	dia.SetDebug(false)
 
 	sliceData := strings.Split(string(fileBytes), "\n")
 	firstLine := sliceData[0]
@@ -41,7 +40,7 @@ func main() {
 		title = matches[1]
 		sliceData = sliceData[1:]
 		dia.SetTitle(title)
-		dia.SetTitleFont(zml.Font{Name: "Roboto-Bold.ttf", Size: 21})
+		dia.SetTitleFont(zml.Font{Name: "Roboto-Bold.ttf", Size: 37})
 	}
 
 	relationRegexp := regexp.MustCompile(`^\[?([A-Za-z\s]+)\]?([-]+>{0,2})\[?([A-Za-z\s]+)\]?:?(.*)?`)

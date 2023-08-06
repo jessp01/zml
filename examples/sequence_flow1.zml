@@ -1,4 +1,4 @@
-title: sequenceDiagram
+title: Sequence Diagram
 Alice->>John: Hello John, how are you?
 John-->>Alice: Great!
 John->>Bob: How about you?
