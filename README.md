@@ -21,6 +21,10 @@ See the [examples dir](./examples) for sample input files.
 $ zml_cli ./examples/sequence_flow1.zml
 ```
 
+Will create `./examples/sequence_flow1.zml.png`
+
+[![seq chart](examples/sequence_flow1.zml.png)]
+
 [license]: ./LICENSE
 [badge-license]: https://img.shields.io/github/license/jessp01/zml.svg
 [go-docs-badge]: https://godoc.org/github.com/jessp01/zml?status.svg
