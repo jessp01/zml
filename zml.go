@@ -22,7 +22,7 @@ const (
 	verticalSpaceBetweenEdges = 50
 
 	width  = 1024
-	height = 768
+	height = 1000
 )
 
 // Diagram represents a diagram
