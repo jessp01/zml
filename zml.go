@@ -221,7 +221,7 @@ func (dia *Diagram) renderConnections() {
 				log.Printf(err.Error())
 			}
 			textWidth, textHeight := dia.dc.MeasureString(e.Label)
-			textY := startY + textHeight
+			textY := startY + textHeight + 5
 			textX := startX
 			if isReverseEdge {
 				textX -= elemenetsPadding / 2
