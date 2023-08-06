@@ -18,10 +18,10 @@ $ go install github.com/jessp01/zml/cmd/zml_cli@latest
 See the [examples dir](./examples) for sample input files.
 
 ```sh
-$ ./zml_cli --font-dir /usr/share/texlive/texmf-dist/fonts/truetype/google/roboto \
-    --title-font "Roboto-Bold.ttf,37" \
-    --label-font "Roboto-Italic.ttf,15" \
-    --element-font "Roboto-Regular.ttf,21" \
+$ ./zml_cli --font-dir /usr/share/texlive/texmf-dist/fonts/truetype/google/noto \
+    --title-font "NotoSans-Bold.ttf,37" \
+    --label-font "NotoSans-Italic.ttf,15" \
+    --element-font "NotoSans-Regular.ttf,21" \
     ./examples/sequence_flow1.zml
 ```
 
