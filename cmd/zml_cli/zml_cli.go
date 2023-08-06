@@ -108,7 +108,7 @@ func main() {
 			dia.SetDebug(true)
 		}
 		dia.SetFontDir(fontDir)
-		fontSize := 15.00
+		fontSize := 30.00
 		if titleFont != "" {
 			titleFontAttribs := strings.Split(titleFont, ",")
 			if len(titleFontAttribs) > 1 {
@@ -118,6 +118,7 @@ func main() {
 				dia.SetTitleFont(zml.Font{Name: titleFontAttribs[0], Size: fontSize})
 			}
 		}
+		fontSize = 15.00
 		if labelFont != "" {
 			labelFontAttribs := strings.Split(labelFont, ",")
 			if len(labelFontAttribs) > 1 {
