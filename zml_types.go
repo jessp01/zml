@@ -3,8 +3,8 @@ package zml
 const (
 	// RECT sets elemenet type to rectangle
 	RECT int = 0
-	// DESCISION sets elemenet type to decision node
-	DESCISION = 1
+	// DECISION sets elemenet type to decision node
+	DECISION = 1
 	// CIRCLE sets elemenet type to circle
 	CIRCLE = 2
 )
