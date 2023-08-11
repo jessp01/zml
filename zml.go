@@ -84,6 +84,24 @@ func (dia *Diagram) renderTitle() {
 	dia.dc.Stroke()
 }
 
+func (dia *Diagram) drawBorder(color string, rectangleStrokeWidth float64, startX, startY, endX, endY float64) {
+	dia.dc.SetRGB255(Colorlookup(color))
+	dia.dc.SetLineWidth(rectangleStrokeWidth)
+	dia.dc.SetFillRule(gg.FillRuleEvenOdd)
+
+	dia.dc.DrawLine(startX, startY, endX, startY)
+	dia.dc.Stroke()
+
+	dia.dc.DrawLine(startX, endY, endX, endY)
+	dia.dc.Stroke()
+
+	dia.dc.DrawLine(startX, startY, startX, endY)
+	dia.dc.Stroke()
+
+	dia.dc.DrawLine(endX, startY, endX, endY)
+	dia.dc.Stroke()
+}
+
 func (dia *Diagram) renderElemenets() {
 	for idx := range dia.elemenets {
 		p := &dia.elemenets[idx]
@@ -99,22 +117,7 @@ func (dia *Diagram) renderElemenets() {
 		endX := startX + elemenetBoxWidth
 		startY := 1000 * 0.1 // 10% from the top
 		endY := startY + elemenetBoxHeight
-		// draw the border
-		/* dia.dc.SetColor(color.Black)
-		dia.dc.SetLineWidth(rectangleStrokeWidth)
-		dia.dc.SetFillRule(gg.FillRuleEvenOdd)
-
-		dia.dc.DrawLine(startX, startY, endX, startY)
-		dia.dc.Stroke()
-
-		dia.dc.DrawLine(startX, endY, endX, endY)
-		dia.dc.Stroke()
-
-		dia.dc.DrawLine(startX, startY, startX, endY)
-		dia.dc.Stroke()
-
-		dia.dc.DrawLine(endX, startY, endX, endY)
-		dia.dc.Stroke()*/
+		// dia.drawBorder("green", rectangleStrokeWidth, startX, startY, endX, endY)
 
 		if dia.fontDir != "" && dia.elementLabelFont.Name != "" {
 			if err := dia.dc.LoadFontFace(filepath.Join(dia.fontDir, dia.elementLabelFont.Name), dia.elementLabelFont.Size); err != nil {
