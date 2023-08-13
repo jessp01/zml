@@ -102,6 +102,32 @@ func (dia *Diagram) drawBorder(color string, rectangleStrokeWidth float64, start
 	dia.dc.Stroke()
 }
 
+func (dia *Diagram) drawNode(lineEndY, startX, startY, endX float64, nodeColor, fontColor, label string) {
+	endY := startY + elemenetBoxHeight
+	strWidth, strHeight := dia.dc.MeasureString(label)
+	centerStrWidth := startX + ((endX - startX) / 2) - strWidth/2
+	centerStrHeight := (endY-startY)/2 + startY + (strHeight / 2)
+	dia.dc.SetColor(color.Gray{Y: 230})
+	dia.dc.DrawRoundedRectangle(
+		startX,
+		startY,
+		elemenetBoxWidth,
+		elemenetBoxHeight,
+		5,
+	)
+	dia.dc.SetRGB255(Colorlookup(nodeColor))
+	dia.dc.Fill()
+	dia.dc.SetRGB255(Colorlookup(fontColor))
+
+	dia.dc.DrawString(
+		label,
+		centerStrWidth,
+		centerStrHeight,
+	)
+	dia.dc.Stroke()
+	dia.dc.SetColor(color.Black)
+}
+
 func (dia *Diagram) renderElemenets() {
 	for idx := range dia.elemenets {
 		p := &dia.elemenets[idx]
@@ -113,9 +139,8 @@ func (dia *Diagram) renderElemenets() {
 		}
 		spacePerBlock := float64(dia.dc.Width() / len(dia.elemenets))
 		startX := spacePerBlock*float64(len(dia.renderedElemenets)+1) - spacePerBlock/2 - elemenetsPadding
-		// startX := float64(elemenetsPadding + (len(dia.renderedelemenets) * (elemenetBoxWidth + 1000/(len(dia.elemenets)))))
 		endX := startX + elemenetBoxWidth
-		startY := 1000 * 0.1 // 10% from the top
+		startY := height * 0.1 // 10% from the top
 		endY := startY + elemenetBoxHeight
 		// dia.drawBorder("green", rectangleStrokeWidth, startX, startY, endX, endY)
 
@@ -125,28 +150,7 @@ func (dia *Diagram) renderElemenets() {
 			}
 		}
 
-		dia.dc.SetColor(color.Gray{Y: 230})
-		dia.dc.DrawRoundedRectangle(
-			startX,
-			startY,
-			elemenetBoxWidth,
-			elemenetBoxHeight,
-			5,
-		)
-		dia.dc.SetRGB255(Colorlookup("platered"))
-		dia.dc.Fill()
-		dia.dc.SetColor(color.White)
-		strWidth, strHeight := dia.dc.MeasureString(p.Name)
-		centerStrWidth := startX + ((endX - startX) / 2) - strWidth/2
-		centerStrHeight := (endY-startY)/2 + startY + (strHeight / 2)
-
-		dia.dc.DrawString(
-			p.Name,
-			centerStrWidth,
-			centerStrHeight,
-		)
-		dia.dc.Stroke()
-		dia.dc.SetColor(color.Black)
+		dia.drawNode(endY, startX, startY, endX, "platered", "white", p.Name)
 		dia.elemenetsCoordMap[p.Name] = elemenetCoord{
 			X: startX,
 			Y: startY,
@@ -160,30 +164,9 @@ func (dia *Diagram) renderElemenets() {
 		dia.dc.SetLineWidth(lineStrokeWidth)
 		dia.dc.DrawLine(centerX, lineStartY, centerX, lineEndY)
 		dia.dc.Stroke()
-		// new
-		dia.dc.SetColor(color.Gray{Y: 230})
-		startY = lineEndY + 1
-		endY = startY + elemenetBoxHeight
-		dia.dc.DrawRoundedRectangle(
-			startX,
-			startY,
-			elemenetBoxWidth,
-			elemenetBoxHeight,
-			5,
-		)
-		dia.dc.SetRGB255(Colorlookup("platered"))
-		dia.dc.Fill()
-		dia.dc.SetColor(color.White)
 
-		centerStrHeight = (endY-startY)/2 + startY + (strHeight / 2)
-		dia.dc.DrawString(
-			p.Name,
-			centerStrWidth,
-			centerStrHeight,
-		)
-		dia.dc.Stroke()
-		dia.dc.SetColor(color.Black)
-		// end new
+		startY = lineEndY + 1
+		dia.drawNode(lineEndY, startX, startY, endX, "platered", "white", p.Name)
 		dia.renderedElemenets = append(dia.renderedElemenets, p)
 
 	}
