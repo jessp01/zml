@@ -23,6 +23,9 @@ const (
 
 	width  = 1024
 	height = 1000
+	// TODO: expose on Diagram struct instead
+	nodeBgColor    = "platered"
+	nodeLabelColor = "white"
 )
 
 // Diagram represents a diagram
@@ -102,7 +105,7 @@ func (dia *Diagram) drawBorder(color string, rectangleStrokeWidth float64, start
 	dia.dc.Stroke()
 }
 
-func (dia *Diagram) drawNode(lineEndY, startX, startY, endX float64, nodeColor, fontColor, label string) {
+func (dia *Diagram) drawNode(lineEndY, startX, startY, endX float64, nodeBgColor, nodeLabelColor, label string) {
 	endY := startY + elemenetBoxHeight
 	strWidth, strHeight := dia.dc.MeasureString(label)
 	centerStrWidth := startX + ((endX - startX) / 2) - strWidth/2
@@ -115,9 +118,9 @@ func (dia *Diagram) drawNode(lineEndY, startX, startY, endX float64, nodeColor, 
 		elemenetBoxHeight,
 		5,
 	)
-	dia.dc.SetRGB255(Colorlookup(nodeColor))
+	dia.dc.SetRGB255(Colorlookup(nodeBgColor))
 	dia.dc.Fill()
-	dia.dc.SetRGB255(Colorlookup(fontColor))
+	dia.dc.SetRGB255(Colorlookup(nodeLabelColor))
 
 	dia.dc.DrawString(
 		label,
@@ -150,7 +153,7 @@ func (dia *Diagram) renderElemenets() {
 			}
 		}
 
-		dia.drawNode(endY, startX, startY, endX, "platered", "white", p.Name)
+		dia.drawNode(endY, startX, startY, endX, nodeBgColor, nodeLabelColor, p.Name)
 		dia.elemenetsCoordMap[p.Name] = elemenetCoord{
 			X: startX,
 			Y: startY,
@@ -166,7 +169,7 @@ func (dia *Diagram) renderElemenets() {
 		dia.dc.Stroke()
 
 		startY = lineEndY + 1
-		dia.drawNode(lineEndY, startX, startY, endX, "platered", "white", p.Name)
+		dia.drawNode(lineEndY, startX, startY, endX, nodeBgColor, nodeLabelColor, p.Name)
 		dia.renderedElemenets = append(dia.renderedElemenets, p)
 
 	}
