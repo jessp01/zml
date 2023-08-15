@@ -105,6 +105,30 @@ func (dia *Diagram) drawBorder(color string, rectangleStrokeWidth float64, start
 	dia.dc.Stroke()
 }
 
+func (dia *Diagram) drawDecisionNode(startX, startY float64, nodeBgColor, label string) {
+	strWidth, strHeight := dia.dc.MeasureString(label)
+	size := strWidth + 30
+	centerStrWidth := startX - strWidth/2
+	centerStrHeight := (startY + size/2) + (strHeight / 2)
+	dia.dc.LineTo(startX+size/2, startY+size/2)
+	dia.dc.LineTo(startX, startY+size)
+	dia.dc.LineTo(startX-size/2, startY+size/2)
+	dia.dc.LineTo(startX, startY)
+	dia.dc.LineTo(startX+size/2, startY+size/2)
+	dia.dc.SetRGB255(Colorlookup(nodeBgColor))
+	dia.dc.FillPreserve()
+
+	dia.dc.SetRGB255(Colorlookup(nodeLabelColor))
+	dia.dc.DrawString(
+		label,
+		centerStrWidth,
+		centerStrHeight,
+	)
+	dia.dc.Stroke()
+
+	dia.dc.SetColor(color.Black)
+}
+
 func (dia *Diagram) drawNode(lineEndY, startX, startY, endX float64, nodeBgColor, nodeLabelColor, label string) {
 	endY := startY + elemenetBoxHeight
 	strWidth, strHeight := dia.dc.MeasureString(label)
@@ -172,6 +196,7 @@ func (dia *Diagram) renderElemenets() {
 		dia.drawNode(lineEndY, startX, startY, endX, nodeBgColor, nodeLabelColor, p.Name)
 		dia.renderedElemenets = append(dia.renderedElemenets, p)
 
+		// dia.drawDecisionNode(startX + 50, 300, "green", "A Decision Node")
 	}
 }
 
