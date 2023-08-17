@@ -38,7 +38,7 @@ $ ./zml_cli --font-dir /usr/share/texlive/texmf-dist/fonts/truetype/google/noto 
     ./examples/sequence_flow1.zml
 ```
 
-Will create `./examples/sequence_flow1.zml.png`
+Will produce [./examples/sequence_flow1.zml.png](./examples/sequence_flow1.zml.png)
 
 ![example sequence flow](examples/sequence_flow1.zml.png)
 
