@@ -5,7 +5,7 @@
 [![GoReportCard][go-report-card-badge]][go-report-card]
 [![License][badge-license]][license]
 
-Diagram and flowchart tool written in Golang
+Diagram and flowchart tool written in `Golang`
 
 ### Installation
 
