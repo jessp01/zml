@@ -111,7 +111,7 @@ func main() {
 		log.SetFlags(log.LstdFlags | log.Lshortfile)
 		fmt.Printf("%f, %f, %s, %s\n", width, height, backgroundColor, fontDir)
 		if c.NArg() < 1 {
-			fmt.Printf("USAGE: %s <filename> \n", os.Args[0])
+			cli.ShowAppHelp(c)
 			os.Exit(1)
 		}
 
